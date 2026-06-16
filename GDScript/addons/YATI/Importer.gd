@@ -57,8 +57,7 @@ func _get_import_options(path: String, preset_index: int) -> Array:
 		{ "name": "custom_data_prefix", "default_value": "data_" },
 		{ "name": "tiled_project_file", "default_value": "", "property_hint": PROPERTY_HINT_FILE, "hint_string": "*.tiled-project;Project File" },
 		{ "name": "post_processor", "default_value": "", "property_hint": PROPERTY_HINT_FILE, "hint_string": "*.gd;GDScript" },
-		{ "name": "save_tileset_to", "default_value": "", "property_hint": PROPERTY_HINT_SAVE_FILE, "hint_string": "*.tres;Resource File" },
-		{ "name": "safeness_no_instantiation", "default_value": false }
+		{ "name": "save_tileset_to", "default_value": "", "property_hint": PROPERTY_HINT_SAVE_FILE, "hint_string": "*.tres;Resource File" }
 	]
 
 func _get_import_order() -> int:
@@ -96,7 +95,8 @@ func _import(source_file: String, save_path: String, options: Dictionary, platfo
 		tilemapCreator.set_custom_types(ct)
 	if options.has("save_tileset_to") and options["save_tileset_to"] != "":
 		tilemapCreator.set_save_tileset_to(options["save_tileset_to"])
-	if options.has("safeness_no_instantiation") and options["safeness_no_instantiation"] == true:
+
+	if bool(ProjectSettings.get_setting("YATI/safeness/no_instantiation", false)):
 		tilemapCreator.set_safeness_no_instantiation(true)
 
 	var node2D = tilemapCreator.create(source_file)
