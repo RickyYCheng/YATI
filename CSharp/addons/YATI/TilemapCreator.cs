@@ -283,7 +283,10 @@ public class TilemapCreator
             HandleProperties(_baseNode, (Array<Dictionary>)mapProps);
         
         if (_parallaxBackground.GetChildCount() == 0)
+        {
             _baseNode.RemoveChild(_parallaxBackground);
+            _parallaxBackground.QueueFree();
+        }
         
         // Remove internal helper custom data
         if (_tileset.GetCustomDataLayersCount() > 0)
@@ -1280,6 +1283,7 @@ public class TilemapCreator
                     var instance = scene.Instantiate();
                     objSprite.Owner = null;
                     layerNode.RemoveChild(objSprite);
+                    objSprite.QueueFree();
                     layerNode.AddChild(instance);
                     instance.Owner = _baseNode;
                     instance.Name = (objName != "") ? objName : resPath.GetFile().GetBaseName();
