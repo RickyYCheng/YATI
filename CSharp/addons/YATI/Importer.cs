@@ -60,7 +60,8 @@ public partial class Importer: EditorImportPlugin
             new() { { "name", "post_processor" }, { "default_value", "" },
                     { "property_hint", (int)PropertyHint.File }, { "hint_string", "*.cs;C# Script" } },
             new() { { "name", "save_tileset_to" }, { "default_value", "" },
-                    { "property_hint", (int)PropertyHint.SaveFile }, { "hint_string", "*.tres;Resource File" } }
+                    { "property_hint", (int)PropertyHint.SaveFile }, { "hint_string", "*.tres;Resource File" } },
+            new() { { "name", "safeness_no_instantiation" }, { "default_value", false } }
         };
     }
 
@@ -111,6 +112,9 @@ public partial class Importer: EditorImportPlugin
         {
             tilemapCreator.SetSaveTilesetTo((string)options["save_tileset_to"]);
         }
+
+        if (options.ContainsKey("safeness_no_instantiation") && (string)options["safeness_no_instantiation"] == "true")
+            tilemapCreator.SetSafenessNoInstantiation(true);
 
         var node2D = tilemapCreator.Create(sourceFile);
         if (node2D == null)
